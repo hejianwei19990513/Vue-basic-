@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <!-- 2.style样式处理
+         对象语法 -->
+    <div class="app">
+        <div v-bind:style="{color:activecolor,fontSize:fontSize}">这是style对象语法</div>
+
+        <!-- 简化写法 -->
+        <div :style="objStyle">这是style对象简化语法</div>
+    </div>
+
+    <script>
+        var V = new Vue({
+            el:".app",
+            data:{
+                activecolor:"red",
+                fontSize:'50px',
+                objStyle:{
+                    color:"pink",
+                    width:"100px",
+                    height:"100px",
+                    border:'1px solid red'
+                }
+            },
+        })
+    </script>
+
+</body>
+
+</html>

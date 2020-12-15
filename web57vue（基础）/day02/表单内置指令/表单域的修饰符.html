@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- 表单域修饰符 -->
+        <!-- number:转化为数值 -->
+        <input v-model.number="age" type="text">
+
+        <!-- trim:去掉开始和结尾的空格-->
+        <input type="text" v-model.trim="text">
+
+        <!-- lazy:将input事件切换为change事件(input默认是按键触发，change事件是失去焦点才触发)  -->
+        <input type="text" v-model.lazy="msg">
+        <div>{{msg}}</div>
+        <button @click="handle">提交</button>
+
+        <!-- @blur失去焦点触发函数 -->
+        <input type="text" @blur="handle1">
+    </div>
+    <script>
+        var V = new Vue({
+            el: ".app",
+            data: {
+                age: "",
+                text: "",
+                msg:""
+            },
+            methods: {
+                handle: function () {
+                    this.age = this.age + 13
+                    console.log(this.age);
+                    console.log(this.text.length);
+                },
+                handle1:function(){
+                    alert('失去焦点弹窗！')
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

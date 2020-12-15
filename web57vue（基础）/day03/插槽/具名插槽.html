@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- 简单点的具名插槽,没匹配到的都放到main里面的没有定义name的slot里面去 -->
+        <base-layout>
+            <p slot="header">我是头部信息</p>
+            <p>我是中间信息1</p>
+            <p>我是中间信息2</p>
+            <p slot="footer">我是尾部信息</p>
+        </base-layout>
+
+        <!-- 复杂点的具名插槽 -->
+        <base-layout>
+            <template slot="header">
+                <p>标题信息1</p>
+                <p>标题信息2</p>
+            </template>
+            <p>我是中间信息1</p>
+            <p>我是中间信息2</p>
+            <template slot="footer">
+                <p slot="footer">我是尾部信息1</p>
+                <p slot="footer">我是尾部信息2</p>
+            </template>
+        </base-layout>
+    </div>
+    <script>
+        Vue.component('base-layout', {
+            template: `
+                <div>
+                    <header>
+                        <slot name="header"></slot>
+                    </header>
+                    <main>
+                        <slot></slot>
+                    </main>
+                    <footer>
+                        <slot name="footer"></slot>
+                    </footer>
+                </div>
+            `
+        }
+        )
+        var V = new Vue({
+            el: ".app",
+            data: {
+
+            }
+        }
+        )
+    </script>
+</body>
+
+</html>

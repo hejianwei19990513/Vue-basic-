@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+     <!-- 循环结构
+          v-for遍历对象 -->
+        <div class="app">
+            <li v-for="(value,key,index) in obj">{{key + '---' + value}}</li>
+            <hr>
+
+            <!-- v-if与v-for一起用的时候：
+                这里只会出来【age---16】这个li -->
+            <li v-if="key=='age'" v-for="(value,key,index) in obj">{{key + '---' + value}}</li>
+        </div>
+        <script>
+            var V =new Vue({
+                el:".app",
+                data:{
+                    obj:{
+                        name:'鞠婧祎',
+                        age:26,
+                        type:"女神"
+                    }
+                }
+            })
+        </script>
+</body>
+</html>

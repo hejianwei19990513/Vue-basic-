@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <form action="">
+            <div>
+                <!-- @keyup.delete="clearUname"按删除键触发clearUname -->
+                用户名：<input type="text" v-model="uname" @keyup.delete="clearUname">
+            </div>
+            <div>
+                <!-- @keyup.enter="handle"按回车触发handle事件  @keyup.delete="clearPwd"按删除键触发clearPwd-->
+                密码　：<input type="password" v-model="pwd" @keyup.enter="handle" @keyup.delete="clearPwd">
+            </div>
+            <div>
+                <input type="button" value="提交" @click="handle">
+            </div>
+        </form>
+    </div>
+    <script>
+        var V = new Vue({
+            el:"#app",
+            data:{
+                uname:'',
+                pwd:''
+            },
+            methods:{
+                handle:function(){
+                    console.log(this.uname,this.pwd);
+                },
+                clearUname:function(){
+                    this.uname=''
+                },
+                clearPwd:function(){
+                    this.pwd=''
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            float: left;
+            list-style: none;
+            width: 200px;
+            height: 50px;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 50px;
+        }
+        .tab div {
+            width:600px;
+            height: 300px;
+            margin-top: 50px;
+        }
+        .tab {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="tab">
+        <li :key="item.id" v-for="(item,index) in color" @click="handle" :id="color[index].id">{{item.color}}</li>
+        <div :key="item.id" v-for="(item,index) in bcc" :style="{backgroundColor:bcc[index].color}"  v-show="bcc[index].flag" :id="color[index].id"></div>
+    </div>
+    <script>
+        var V = new Vue({
+            el:".tab",
+            data:{
+                color:[{id:0,color:"显示红色"},{id:1,color:"显示天蓝色"},{id:2,color:"显示粉红色"}],
+                bcc:[{id:3,color:"red",flag:false},{id:4,color:"skyblue",flag:false},{id:5,color:"pink",flag:false}],
+            },
+            methods:{
+                    handle:function(event){
+                        for(var i = 0 ; i < this.bcc.length ; i++) {
+                            this.bcc[i].flag = false
+                        }
+                        this.bcc[event.target.id].flag = true
+                    }
+                }
+        })
+    </script>
+</body>
+</html>

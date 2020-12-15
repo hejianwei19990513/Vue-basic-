@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- 在html模板上，只能用驼峰命名属性 -->
+        <test title-word="内容1"></test>
+        <he he-jian-wei="he"></he>
+    </div>
+    <script>
+        Vue.component("test",{
+            props:['titleWord'],
+            template:`<div>{{titleWord}}</div>`
+        })
+        Vue.component("he",{
+            props:['heJianWei'],
+            // 在字符串形式的模板中可以使用驼峰命名属性（这里指下面的titleWord="test"），当然也可以用title-word="test"
+            template:`<div>{{heJianWei}}<test titleWord="内容2"></test></div>`
+        })
+        var V = new Vue({
+            el:".app",
+            data:{
+               
+            },
+        })
+    </script>
+</body>
+</html>

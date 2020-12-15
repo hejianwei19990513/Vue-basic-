@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 1.实例方法
+    p.then()得到异步任务的正确结果
+    p.catch()获取异常信息
+    p.finally()成功与否都会执行(尚且不是正式标准) -->
+
+    <script>
+        function aaa(url){
+            var p = new Promise(function(resolve,reject){
+                var xhr = new XMLHttpRequest()
+                xhr.open('get',url)
+                xhr.send(null)
+                xhr.onreadystatechange=function(){
+                    if(xhr.readyState != 4) return
+                    if(xhr.readyState == 4 && xhr.status == 200) {
+                        resolve(xhr.responseText)
+                    }else{
+                        reject("服务器错误")
+                    }
+                }
+            })
+            return p
+        }
+        aaa('http://127.0.0.1/get')
+        .then(function(data){
+            console.log("获取到了");
+        })
+        .catch(function(data){
+            console.log("没有获取到");
+        })
+        .finally(function(data){
+            console.log(1);
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- 一切不用冒号的都是字符串 -->
+        <!-- 【注意】这里pnum1显示的是string字符串 -->
+        <test pstr='字符串' :pnum="12" :pnum1="num" :pbool="true" :parr="arr" :pobj="obj"></test>
+    </div>
+    <script>
+        Vue.component("test", {
+            props: ['pstr', 'pnum', 'pnum1','pbool','parr','pobj'],
+            template: `
+        <div>
+            <div>{{typeof pstr}}</div>
+            <div>{{typeof pnum}}</div>
+            <div>{{typeof pnum1}}</div>
+            <div>{{typeof pbool}}</div>
+            <ul>
+                <li :key="index" v-for="(item,index) in parr">{{item}}</li>
+            </ul>
+            <span>{{pobj.name}}</span><span>{{pobj.type}}</span>
+        </div>
+            `
+        })
+        var V = new Vue({
+            el: ".app",
+            data: {
+                num:'12',
+                arr:['jjy','是我','女神'],
+                obj:{
+                    name:'鞠婧祎',
+                    type:"女神"
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="calc">
+        <h1>简单加法计算器</h1>
+        计算A：<input type="text" v-model="A"><br>
+        计算B：<input type="text" v-model="B"><br>
+        <input type="button" value="计算" @click="handle"><br>
+        计算得出：　<span v-text='sum'></span>
+    </div>
+    <script>
+        var V = new Vue({
+            el:"#calc",
+            data:{
+                A:"",
+                B:"",
+                sum:null
+            },
+            methods:{
+                handle:function(){
+                    if(this.A == ''||this.B == '') {
+                        alert("请输入完整信息")
+                        return this.sum = this.A = this.B =  ''
+                    } 
+                    this.sum = Number(this.A) + Number(this.B)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

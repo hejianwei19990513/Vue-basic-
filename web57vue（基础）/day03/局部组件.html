@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <hello-world></hello-world>
+        <test></test>
+    </div>
+    <script>
+        Vue.component("test",{
+            // 这里会报错，因为在类名app父盒子中注册的helloworld局部组件只能在其父组件里面使用
+            template:"<HelloWorld></HelloWorld>"
+        })
+        // 局部组件的注册
+        var HelloWorld = {
+            data: function () {
+                return {
+                    word: "HelloWorld"
+                }
+            },
+            template: "<div>{{word}}</div>"
+        }
+        var V = new Vue({
+            el: ".app",
+            data:{
+
+            },
+            components:{
+                // 局部组件的注册
+                'hello-world':HelloWorld
+            }
+        })
+    </script>
+</body>
+
+</html>

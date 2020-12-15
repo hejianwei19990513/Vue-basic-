@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <!-- 自定义指令:
+    自定义指令带参数用法(修改元素背景颜色) -->
+    <div class="app">
+        <input type="text" v-color="msg">
+    </div>
+    <script>
+        Vue.directive('color', {
+            bind:function(el,binding){
+                el.style.backgroundColor = binding.value
+            }
+        })
+        var V = new Vue({
+            el:".app",
+            data:{
+                msg:"pink"
+            },
+            methods:{
+                handle:function(){
+
+                }
+            }
+        })
+    </script>
+
+
+</body>
+
+</html>

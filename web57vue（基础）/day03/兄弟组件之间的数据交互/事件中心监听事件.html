@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <one></one>
+        <two></two>
+    </div>
+    <script>
+        var hub = new Vue()
+        Vue.component('one', {
+            data: function () {
+                return {
+                    num: 0
+                }
+            },
+            template: `
+            <div>
+                <div>Tom: {{num}}</div>
+                <button @click='handle'>Tom的按钮</button>
+            </div>
+            `,
+            methods:{
+                handle:function(){
+                    hub.$emit('jerry-event',2)
+                }
+            },
+            mounted:function(){
+                hub.$on('tom-event',(val)=>{
+                    this.num += val
+                })
+            }
+        })
+        Vue.component('two', {
+            data: function () {
+                return {
+                    num: 0
+                }
+            },
+            template: `
+            <div>
+                <div>Jerry: {{num}}</div>
+                <button @click='handle'>Jerry的按钮</button>
+            </div>
+            `,
+            methods:{
+                handle:function(){
+                    hub.$emit("tom-event",1)
+                }
+            },
+            mounted:function(){
+                hub.on('',(val)=>{
+                
+                })
+            }
+        })
+        var V = new Vue({
+            el: ".app",
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

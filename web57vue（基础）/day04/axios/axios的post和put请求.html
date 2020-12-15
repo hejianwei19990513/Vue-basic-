@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./axios.js"></script>
+</head>
+
+<body>
+    <script>
+        axios.post('http://127.0.0.1/axiospost',{
+            // 默认是json格式
+            username:'jjy',
+            age:26
+        }).then(ret=>{
+            console.log(ret.data)
+        })
+        var parmas = new URLSearchParams()
+        parmas.append('username','jjy1')
+        parmas.append('age','26')
+        axios.post('http://127.0.0.1/axiospost',parmas).then(ret=>{
+            console.log(ret.data)
+        })
+    </script>
+    <hr>
+    <script>
+        // 与post基本一样
+        axios.put('http://127.0.0.1/axiosput',{
+            // 默认是json格式
+            username:'jjy',
+            age:26
+        }).then(ret=>{
+            console.log(ret.data)
+        })
+        var parmas = new URLSearchParams()
+        parmas.append('username','jjy1')
+        parmas.append('age','26')
+        axios.put('http://127.0.0.1/axiosput',parmas).then(ret=>{
+            console.log(ret.data)
+        })
+    </script>
+</body>
+
+</html>

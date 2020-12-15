@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .active {
+            background-color: yellow;
+        }
+
+        .current {
+            display: block;
+        }
+        ul{
+            width: 750px;
+            height: 50px;
+        }
+        li{
+            float: left;
+            list-style: none;
+            width: 250px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            border: 1px solid red;
+        }
+        .app div{
+            width: 750px;
+            height: 100px;
+        }
+        .block{
+            display: block;
+        }
+        .none{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <ul>
+            <!-- :class="(currentIndex==index)?'active':''"代表索引为0时class为active就是默认显示的样式 -->
+            <li :class="(currentIndex==index)?'active':''" :key='item.id' v-for='(item,index) in list' @click='handle(index)'>{{item.title}}</li>
+        </ul>
+        <!-- :class="(currentIndex==index)?'block':'none'"代表索引为0时class为就是display: block，其他的均是display: none -->
+        <div :class="(currentIndex==index)?'block':'none'" :key='item.id' v-for='(item,index) in list' :style='{backgroundColor:item.color}'></div>
+    </div>
+    <script>
+        var V = new Vue({
+            el: ".app",
+            data: {
+                currentIndex: 0,
+                list: [{
+                    id: 1,
+                    title: "显示红色",
+                    color: "red"· 
+                }, {
+                    id: 2,
+                    title: "显示蓝色",
+                    color: "blue"
+                }, {
+                    id: 3,
+                    title: "显示粉红色",
+                    color: "pink"
+                },]
+            },
+            methods:{
+                // 点击任何一个小li使得this.currentIndex = 该li的索引号（注意传入index参数）
+                handle:function(val){
+                    this.currentIndex = val
+                }
+            }
+        }
+        )
+    </script>
+</body>
+
+</html>

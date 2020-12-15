@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <!-- 5.5侦听器
+    1.侦听器的应用场景
+    数据变化时执行异步或开销较大的操作
+
+    ⒉侦听器的用法:
+    watch: {
+        firstName: function(val) {
+            // val表示变化之后的值
+            this.fullName = val + this.lastName;
+        }
+        lastName: function (val) {
+            this.fullName = this.firstName + val;
+        }
+    } -->
+    <div class="app">
+        <input type="text" v-model="name1">
+        <input type="text" v-model="name2">
+        <div>{{name}}</div>
+    </div>
+    <script>
+        var V = new Vue({
+            el:".app",
+            data:{
+                name1:"",
+                name2:"",
+                name:""
+            },
+            // 侦听器语法
+            watch:{
+                name1:function(val){
+                    this.name = val + ' ' + this.name2
+                },
+                name2:function(val){
+                    this.name = this.name1 + ' ' + val
+                },
+            }
+        })
+    </script>
+
+</body>
+
+</html>

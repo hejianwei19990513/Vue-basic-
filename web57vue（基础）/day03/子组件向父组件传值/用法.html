@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div class="app">
+        <div :style="{fontSize:num+'px'}">我是10px字体</div>
+
+        <!-- handle里面的$event用来接收button传过来的参数10 -->
+        <test @big="handle($event)"></test>
+    </div>
+    <script>
+        Vue.component('test',{
+            template:`
+            <button @click="$emit('big',10)">扩大字体按钮</button>
+            `
+        })
+        var V = new Vue({
+            el:".app",
+            data:{
+                num:10
+            },
+            methods:{
+                handle:function(val){
+                    this.num += val
+                }
+            }
+        })
+    </script>
+</body>
+</html>

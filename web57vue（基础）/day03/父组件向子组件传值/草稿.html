@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="../vue.js"></script> -->
+    <style>
+        ast {
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- <test :title='title'></test> -->
+        <ast title='来自父组件的' style="color:red">1111</ast>
+    </div>
+    <!-- <script>
+        Vue.component("test",{
+            props:['title'],
+            template:`<div>{{title}}</div>`
+        })
+        var V = new Vue({
+            el:".app",
+            data:{
+                // title:"我是父组件的内容"
+            },
+        })
+    </script> -->
+</body>
+</html>

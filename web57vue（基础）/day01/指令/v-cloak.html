@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <!-- v-cloak指令用法
+    插值表达式存在的问题:“闪动”
+    如何解决该问题:使用v-cloak指令
+    解决该问题的原理∶先隐藏，替换好值之后再显示最终的值 -->
+    <div id="msg">
+        <div v-cloak>{{word}}</div>
+    </div>
+    <script>
+        var v = new Vue({
+            el:"#msg",
+            data:{
+                word:"小鞠女神"
+            },
+        })
+    </script>
+
+</body>
+
+</html>

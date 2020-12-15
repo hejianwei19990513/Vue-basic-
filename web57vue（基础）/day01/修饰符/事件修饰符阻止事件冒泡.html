@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{num}}</div>
+        <div @click='handle1'>
+            <button @click="handle">点击加（传统阻止冒泡）</button>
+
+            <!-- 事件修饰符阻止事件冒泡 -->
+            <button @click.stop="handle2">点击加（事件修饰符阻止冒泡）</button>
+
+            <!-- 事件修饰符阻止事件默认行为(可以串联) -->
+            <a href="http://www.baidu.com" @click.stop.prevent="handle2">点我进入百度（阻止事件冒泡同时也阻止事件默认行为）</a>
+        </div>
+    </div>
+    <script>
+        var v = new Vue({
+            el: "#app",
+            data: {
+                num: 0
+            },
+            methods: {
+                handle: function (event) {
+                    // 一般的阻止冒泡事件
+                    event.stopPropagation()
+                },
+                handle1: function (event) {
+                    this.num--;
+                },
+                handle2: function (event) {
+
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

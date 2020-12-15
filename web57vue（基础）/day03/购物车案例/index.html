@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            /* 取消双击组件出现选中文字的默认行为 */
+            user-select:none;
+        }
+        .app {
+            width: 300px;
+            height: 700px;
+            margin: auto;
+        }
+
+        .title {
+            height: 50px;
+            background-color: #a9d5e8;
+            text-align: center;
+            line-height: 50px;
+            font-weight: 700;
+        }
+
+        li {
+            position: relative;
+            list-style: none;
+            border-bottom: 1px solid #a9d5e8;
+        }
+
+        li span:nth-child(1) {
+            display: inline-block;
+            height: 50px;
+            font-size: 20px;
+            text-align: center;
+            line-height: 50px;
+            margin-right: 80px;
+        }
+
+        li span:nth-child(3),
+        li span:nth-child(5) {
+            display: inline-block;
+            width: 20px;
+            height: 25px;
+            background-color: #d3d3d3;
+            text-align: center;
+            line-height: 25px;
+        }
+
+        li span:nth-child(3),
+        li span:nth-child(5) {
+            cursor: pointer;
+        }
+
+        input {
+            width: 50px;
+            height: 30px;
+        }
+
+        li span:nth-child(2) {
+            position: absolute;
+            left: 90px;
+            top: 15px;
+            color: red;
+        }
+
+        li span:nth-child(6) {
+            display: inline-block;
+            width: 20px;
+            height: 25px;
+            font-size: 30px;
+            color: red;
+            text-align: center;
+            line-height: 25px;
+            margin-left: 10px;
+        }
+
+        li span:nth-child(6):hover {
+            cursor: pointer;
+        }
+
+        .footer {
+            height: 50px;
+            background-color: #ffcb3f;
+        }
+
+        .footer span {
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .footer span:nth-child(1) {
+            margin-left: 120px;
+        }
+
+        .footer span:nth-child(-n+2) {
+            color: #ff2203;
+            font-weight: 700;
+        }
+
+        .footer span:nth-child(3) {
+            display: inline-block;
+            width: 80px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #e8593d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="contain">
+            <div class="title">我的商品</div>
+            <content1 :list="lists"></content1>
+            <div class="footer">
+                <span>总价：</span>
+                <total></total>
+                <span>结算</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        var hub = new Vue()
+        Vue.component('total', {
+            data: function () {
+                return {
+                    num: 105
+                }
+            },
+            template: `
+                <span>{{num}}</span>
+            `,
+            mounted: function () {
+                hub.$on('total', (val) => {
+                    this.num = val
+                })
+            }
+        }
+        )
+        var total1 = 0
+        Vue.component('content1', {
+            props: ['list'],
+            template: `
+                <ul>
+                    <li :key='item.id' v-for='item in list'>
+                        <span>{{item.name}}</span>
+                        <span>单价:￥{{item.price}}</span>
+                        <span @click.prevent='decrease' :id='item.id' :total="item.num*item.price">-</span>
+                        <input type="text" v-model='item.num' @blur="change" :id='item.id'>
+                        <span @click.prevent='increase' :id='item.id' :total="item.num*item.price">+</span>
+                        <span @click='handle' :id='item.id'>×</span>
+                    </li>
+                </ul>
+            `,
+            methods: {
+                handle: function (e) {
+                    e.target.parentNode.remove()
+                    this.list[e.target.id - 1].num = 0
+                    this.total()
+                },
+                total: function () {
+                    total1 = 0
+                    for (var i = 0; i < this.list.length; i++) {
+                        total1 += this.list[i].price * this.list[i].num
+                    }
+                    hub.$emit('total', total1)
+                },
+                increase: function (event) {
+                    hub.$emit('in', event.target.id)
+                    this.total()
+                },
+                decrease: function (event) {
+                    hub.$emit('de', event.target.id)
+                    this.total()
+                },
+                change:function (e) {
+                    if(e.target.value =='') {
+                        this.list[e.target.id-1].num = 1
+                    }
+                    this.total()
+                }
+            },
+        }
+        )
+        var V = new Vue({
+            el: ".app",
+            data: {
+                lists: [{
+                    id: 1,
+                    num: 1,
+                    name: "TCL彩电",
+                    price: "30",
+                }, {
+                    id: 2,
+                    num: 1,
+                    name: "机顶盒子",
+                    price: "20",
+                }, {
+                    id: 3,
+                    num: 1,
+                    name: "海尔冰箱",
+                    price: "40",
+                }, {
+                    id: 4,
+                    num: 1,
+                    name: "小米手机",
+                    price: "10",
+                }, {
+                    id: 5,
+                    num: 1,
+                    name: "PTV电视",
+                    price: "5",
+                },],
+            },
+            mounted: function () {
+                hub.$on('in', (val) => {
+                    this.lists[val - 1].num++
+                }),
+                    hub.$on('de', (val) => {
+                        this.lists[val - 1].num--
+                        if (this.lists[val - 1].num == 0) {
+                            this.lists[val - 1].num = 1
+                        }
+                    })
+            }
+        }
+        )
+    </script>
+</body>
+
+</html>

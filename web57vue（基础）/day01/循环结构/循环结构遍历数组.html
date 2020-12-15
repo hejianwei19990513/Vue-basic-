@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <!-- 循环结构
+    v-for遍历数组 -->
+    <div class="app">
+        <li v-for='item in list'>{{item}}</li>
+        <li v-for='(item,index) in list'>{{item + '---' +index}}</li>
+        <li v-for='item in lists'>
+            <span>{{item.type}}</span>---<span>{{item.value}}</span>
+        </li>
+    </div>
+    <hr>
+    <!-- key的作用︰帮助Vue区分不同的元素，避免数据混乱，从而提高性能 -->
+    <div class="key">
+        <input type="text" v-model="name"> <button @click="handle">添加</button>
+        <li v-for='(item,index) in role' :key="item.id"><!-- 【在用按钮添加新li之前对凯的复选框打勾，】如果这里不加key会导致，加入新的li以后，被选中的那个li仍然是第二个，就不是凯了 -->
+            <input type="checkbox">{{item.name}}
+        </li>
+    </div>
+    <script>
+        var V = new Vue({
+            el:".app",
+            data: {
+                list: [1, 2, 3],
+                lists: [{ id: 0, type: "名字", value: "鞠婧祎" }, { id: 1, type: "性别", value: "女" }, { id: 2, type: "类型", value: "女神"}]
+            },
+        })
+        var V = new Vue({
+            el:".key",
+            data:{
+                name:'',
+                newId:2,
+                role:[{id:0,name:'猴子'},{id:1,name:'凯'},{id:2,name:'马超'}]
+            },
+            methods:{
+                handle:function(){
+                    this.role.unshift({id:++this.newId,name:this.name})
+                    this.name=''
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

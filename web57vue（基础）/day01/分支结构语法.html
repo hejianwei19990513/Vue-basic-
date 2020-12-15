@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div class="score">
+        <!-- v-if,v-else-if,v-else语法 -->
+        <div v-if="score>90">excellent</div>
+        <div v-else-if='score>80&&score<=90'>good</div>
+        <div v-else-if='score>=60&&score<=90'>一般</div>
+        <div v-else>差</div>
+
+        <!-- v-show -->
+        <!-- v-if与v-show的区别:
+        v-if控制元素是否渲染到页面
+        v-show控制元素是否显示(已经渲染到了页面) -->
+
+        <div v-show="flag" :style="objStyle">我是隐藏盒子</div>
+
+        <button @click="handle">点我显示隐藏的盒子</button>
+    </div>
+    <script>
+        var V = new Vue({
+            el: ".score",
+            data: {
+                score: 71,
+                flag: false,
+                objStyle: {
+                    width: "100px",
+                    height: "100px",
+                    border: "1px solid red"
+                }
+            },
+            methods: {
+                handle: function () {
+                    this.flag = true
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

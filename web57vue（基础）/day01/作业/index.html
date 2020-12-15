@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .vertical-tab {
+            width: 920px;
+            margin: 100px auto;
+        }
+        
+        .vertical-tab .nav {
+            list-style: none;
+            width: 200px;
+        }
+        
+        .vertical-tab .nav-tabs1 {
+            border-right: 3px solid #e7e7e7;
+        }
+        
+        .vertical-tab .nav-tabs2 {
+            border-left: 3px solid #e7e7e7;
+        }
+        
+        .vertical-tab .nav a {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            margin: 0 0 1px 0;
+            text-decoration: none;
+        }
+        
+        .vertical-tab .tab-content {
+            color: #555;
+            background-color: #fff;
+            font-size: 15px;
+            letter-spacing: 1px;
+            line-height: 23px;
+            padding: 10px 15px 10px 25px;
+            display: table-cell;
+            position: relative;
+        }
+        
+        .vertical-tab .nav-tabs1 {
+            float: left;
+        }
+        
+        .vertical-tab .tabs {
+            width: 500px;
+            box-sizing: border-box;
+            float: left;
+        }
+        
+        .vertical-tab .tab-content h3 {
+            font-weight: 600;
+            text-transform: uppercase;
+            margin: 0 0 5px 0;
+        }
+        
+        .vertical-tab .nav-tabs2 {
+            float: right;
+        }
+        
+        .tab-content {
+            position: relative;
+        }
+        
+        .tab-content .tab-pane {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+        
+        .nav li.active a {
+            color: #198df8;
+            background: #fff;
+            border: none;
+        }
+        
+        .fade {
+            opacity: 0;
+            transition: all .3s linear;
+        }
+        
+        .fade.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="vertical-tab">
+        <!-- 左侧tab栏 -->
+        <ul class="nav nav-tabs1">
+            <li v-if="index<=2" :key='index' v-for='(item,index) in list' @click='handle' :class="item.name"><a href="#" :id="index">{{item.title}}</a></li>
+        </ul>
+        <!-- 内容区域 -->
+        <div class="tab-content tabs">
+            <div :class="'tab-pane  fade '+ item.name1" :key='index' v-for='(item,index) in list' :id="index">
+                <h3>{{item.title}}</h3>
+                <p>{{item.content}}</p>
+            </div>
+        </div>
+        <ul class="nav nav-tabs2">
+            <!-- 右侧tab栏 -->
+            <li v-if="index>=3" v-for='(item,index) in list' @click='handle' :class="item.name"><a href="#" :id="index">{{item.title}}</a></li>
+        </ul>
+    </div>  
+    <script>
+        var V = new Vue({
+            el: "#app",
+            data: {
+                list: [{
+                    id: 1,
+                    title: 'Section 1',
+                    content: 'content1',
+                    name:"",
+                    name1:"active"
+                }, {
+                    id: 2,
+                    title: 'Section 2',
+                    content: 'content2',
+                    name:"",
+                    name1:""
+                }, {
+                    id: 3,
+                    title: 'Section 3',
+                    content: 'content3',
+                    name:"",
+                    name1:""
+                }, {
+                    id: 4,
+                    title: 'Section 4',
+                    content: 'content4',
+                    name:"",
+                    name1:""
+                }, {
+                    id: 5,
+                    title: 'Section 5',
+                    content: 'content5',
+                    name:"",
+                    name1:""
+                }, {
+                    id: 6,
+                    title: 'Section 6',
+                    content: 'content6',
+                    name:"",
+                    name1:""
+                }]
+            },
+            methods:{
+                handle:function(e){
+                    for (var i = 0; i < this.list.length; i++) {
+                        this.list[i].name = "",
+                        this.list[i].name1 = ""
+                    }
+                    this.list[e.target.id].name = "active"
+                    this.list[e.target.id].name1 = "active"
+                },
+            }
+        }
+        )
+    </script>
+</body>
+
+</html>

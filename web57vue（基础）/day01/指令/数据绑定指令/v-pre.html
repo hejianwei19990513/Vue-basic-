@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="msg">
+        <!-- 显示原始信息，跳过编译过程(分析编译过程),这里显示的还是{{msg}} -->
+        <div v-pre>{{msg}}</div>
+    </div>
+    <script>
+        var v = new Vue({
+            el:"#msg",
+            data:{
+                msg:"小鞠女神"
+            },
+        })
+    </script>
+
+</body>
+
+</html>

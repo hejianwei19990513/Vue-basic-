@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <!-- 1.过滤器的作用是什么?
+    格式化数据，比如将字符串格式化为首字母大写，将日期格式化为指定的格式等 -->
+
+    <div class="app">
+        <input type="text" v-model="msg">
+
+        <!-- 过滤器用法 -->
+        <div>{{msg|upper}}</div>
+
+        <!-- 过滤器连续过滤调用的用法 -->
+        <div>{{msg|upper|lower}}</div>
+
+        <!-- 【注意】这里不需要花括号{{msg|upper}} -->
+        <div :id='msg|upper'>测试数据</div>
+    </div>
+
+    <script>
+        // 过滤器用法
+        Vue.filter("upper",function(val){
+            return val.replace(val.charAt(0),val.charAt(0).toUpperCase())
+        });
+        Vue.filter("lower",function(val){
+            return val.replace(val.charAt(0),val.charAt(0).toLowerCase())
+        });
+        var V = new Vue({
+            el:".app",
+            data:{
+                msg:""
+            },
+        })
+    </script>
+</body>
+
+</html>

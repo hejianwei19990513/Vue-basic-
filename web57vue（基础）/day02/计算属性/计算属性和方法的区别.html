@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- 计算属性会缓存：当第二次调用这个相同的计算属性时，会去取之前缓存调用的结果，所以console.log("我是computed的属性")只会在控制台输出一次 -->
+        <div>{{reverseMsg}}</div>
+        <div>{{reverseMsg}}</div>
+
+        <!-- 方法不会缓存：当第二次调用这个相同的方法时，还会再去调用一次这个方法，所以console.log("我是methods")会在控制台输出两次 -->
+        <div>{{reverseMsg1()}}</div>
+        <div>{{reverseMsg1()}}</div>
+    </div>
+    <script>
+        var V = new Vue({
+            el:".app",
+            data:{
+                msg:"pink"
+            },
+            methods:{
+                reverseMsg1:function(){
+                    console.log("我是methods");
+                    return this.msg.split("").reverse().join("")
+                }
+            },
+            computed:{
+                reverseMsg:function(){
+                    console.log("我是computed的属性");
+                    return this.msg.split("").reverse().join("")
+                }
+            }
+        })
+    </script>
+</body>
+</html>

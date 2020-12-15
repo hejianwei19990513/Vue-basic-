@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- 组件插槽用法 -->
+        <alert-box>有bug</alert-box>
+        <alert-box></alert-box>
+    </div>
+    <script>
+        Vue.component('alert-box', {
+            // 组件插槽用法，当上面中由内容时，会把下面slot内容覆盖，没有时，会显示下面slot内容
+            template: `
+                <div>
+                    <strong>ERROR:</strong>
+                    <slot>默认内容</slot>
+                </div>
+            `
+        }
+        )
+        var V = new Vue({
+            el: ".app",
+            data: {
+
+            }
+        }
+        )
+    </script>
+</body>
+
+</html>

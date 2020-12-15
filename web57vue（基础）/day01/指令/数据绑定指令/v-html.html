@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="msg">
+        <!-- 存在安全问题,本网站内部数据可以使用，来自第三方的数据不可以用 -->
+        <div v-html='html'></div>
+    </div>
+    <script>
+        var v = new Vue({
+            el:"#msg",
+            data:{
+                html:"<h1>小鞠女神</h1>"
+            },
+        })
+    </script>
+
+</body>
+
+</html>

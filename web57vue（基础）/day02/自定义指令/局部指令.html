@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <!-- 自定义指令:
+    局部指令(只在当前组件生效) -->
+    <div class="app">
+        <input type="text" v-color="msg" value="12" v-fontcolor="color">
+    </div>
+    <div class="app1">
+        <!-- 这里使用v-fontcolor="color"会报错，因为fontcolor是类名为app的div里面注册的局部组件，在其他组件不能使用 -->
+        <input type="text" v-color="msg" value="12"><!-- v-fontcolor="color"--> 
+    </div>
+    <script>
+        // 全局指令在所以实例下都能使用指令，
+        Vue.directive("color",{
+            bind: function (el, binding) {
+                el.style.backgroundColor = binding.value
+            }
+        })
+        var V = new Vue({
+            el: ".app",
+            data: {
+                msg: "pink",
+                color:"white"
+            },
+            methods: {
+                handle: function () {
+
+                }
+            },
+            directives:{
+                // 这里不能用驼峰命名法
+                fontcolor: {
+                    bind: function (el,binding) {
+                        el.style.color = binding.value
+                    }
+                }
+            }
+        })
+        var V = new Vue({
+            el: ".app1",
+            data: {
+                msg: "pink"
+            },
+            methods: {
+                handle: function () {
+
+                }
+            },
+        })
+    </script>
+
+
+</body>
+
+</html>

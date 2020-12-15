@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <script src="../jquery-3.5.1.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 原始方法 -->
+        <!-- <a v-bind:href="url">百度</a> -->
+
+        <!-- 简化方法 -->
+        <a :href="url" id="one">百度</a>
+        <button @click="handle">点击去淘宝</button>
+    </div>
+    <script>
+        var V = new Vue({
+            el:"#app",
+            data:{
+                url:"http://www.baidu.com",
+            },
+            methods:{
+                handle:function(){
+                    this.url = "http://www.taobao.com"
+                    console.log(this.url);
+                    console.log($('a').attr('href'));
+                }
+            }
+        })
+    </script>
+</body>
+</html>

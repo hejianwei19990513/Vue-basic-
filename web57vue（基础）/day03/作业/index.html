@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <script src="../jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <myheader @additem='addList'></myheader>
+        <mymain :todo="todos" @chooseitem="chooseList" @allcheckeditem="allCheckedList" @delitem="delList" @outitem="outList" @changeitem="changeList"></mymain>
+        <myfooter :filter="filters" :num="num" @alldelitem="allDelList" @handleitem="handleList"></myfooter>
+    </section>
+    <script>
+        Vue.component('myheader', {
+            template: `
+                <header class="header">
+                    <h1>todos</h1>
+                    <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="add" v-focus>
+                </header>
+            `,
+            methods: {
+                add: function (e) {
+                    this.$emit('additem', e.target.value.trim())
+                }
+            }
+        }
+        ),
+        Vue.component('mymain', {
+                props:['todo'],
+                template: `
+                    <section class="main">
+                        <input id="toggle-all" type="checkbox" class="toggle-all" @click='allChecked'>
+                        <label for="toggle-all">Mark all as complete</label>
+                        <ul class="todo-list">
+                            <li :class="item.name" :key='item.id' v-for='(item,index) in todo' v-show="item.flag">
+                                <div class="view">
+                                    <input type="checkbox" :class="'toggle' + item.name1" @click='choose' :id="index"
+                                        v-if="item.id==3" checked>
+                                    <input type="checkbox" :class="'toggle' + item.name1" @click='choose' :id="index" v-else>
+                                    <label @dblclick="change">{{item.title}}</label>
+                                    <button class="destroy" :id="index" @click='del'></button>
+                                </div>
+                                <input class="edit" v-model='item.title' v-focus @blur="out"
+                                    @keyup.esc="out">
+                            </li>
+                        </ul>
+                    </section>
+                    `,
+                    methods:{
+                        choose:function(e){
+                            this.$emit('chooseitem',e.target)
+                        },
+                        allChecked:function(){
+                            this.$emit('allcheckeditem',$(".toggle"),$('.one'))
+                        },
+                        del:function(e){
+                            this.$emit('delitem',e.target)
+                        },
+                        out:function(e){
+                            this.$emit('outitem',e.target)
+                        },
+                        change:function(){
+                            this.$emit('changeitem',e.target)
+                        }
+                    }
+            }
+            )
+        Vue.component('myfooter',{
+            props:['filter','num'],
+            template:`
+                <footer class="footer">
+                    <span class="todo-count">
+                        <strong>{{num}}</strong> item left</span>
+                    <ul class="filters">
+                        <li :key='index' v-for='(item,index) in filter'><a :href="item.href" :class="item.selected"
+                                @click='handle' :id="index">{{item.title}}</a></li>
+                    </ul>
+                    <button class="clear-completed" @click='allDel'>Clear completed</button>
+                </footer>
+            `,
+            methods:{
+                allDel:function(){
+                    this.$emit('alldelitem')
+                },
+                handle:function(){
+                    this.$emit('handleitem',e.target,)
+                }
+            }
+        }
+        )
+        Vue.directive('focus', {
+            inserted: function (el) {
+                el.focus();
+            }
+        })
+        var flag = true
+        var V = new Vue({
+            el: "#todoapp",
+            data: {
+                msg: '',
+                num: 2,
+                ids: 3,
+                todos: [{
+                    id: 1,
+                    title: '吃饭',
+                    name: '',
+                    name1: "",
+                    flag: true
+                }, {
+                    id: 2,
+                    title: '睡觉',
+                    name: '',
+                    name1: "",
+                    flag: true
+                }, {
+                    id: 3,
+                    title: '打豆豆',
+                    name: "completed",
+                    name1: " one",
+                    flag: true
+                }],
+                filters: [{
+                    id: 1,
+                    title: "All",
+                    selected: "selected",
+                    href: "#/",
+                }, {
+                    id: 2,
+                    title: "Active",
+                    selected: "",
+                    href: "#/active",
+                }, {
+                    id: 3,
+                    title: "Completed",
+                    selected: "",
+                    href: "#/completed",
+                }]
+            },
+            methods: {
+                changeList: function (val) {
+                    val.parentNode.parentNode.classList.add("editing")
+                },
+                outList: function (val) {
+                    val.parentNode.classList.remove("editing")
+                },
+                allCheckedList: function (val,val1) {
+                    for (var i = 0; i < this.todos.length; i++) {
+                        val.prop('checked', flag)
+                    }
+                    if (flag) {
+                        for (var j = 0; j < this.todos.length; j++) {
+                            this.todos[j].name = "completed"
+                            this.todos[j].name1 = " one"
+                        }
+                        this.num = 0
+                    } else {
+                        for (var j = 0; j < this.todos.length; j++) {
+                            this.todos[j].name = ""
+                            this.todos[j].name1 = ""
+                        }
+                        this.num = val1.length
+                    }
+                    if (val1.length == 3) {
+                        val.prop('checked', false)
+                        for (var j = 0; j < this.todos.length; j++) {
+                            this.todos[j].name = ""
+                            this.todos[j].name1 = ""
+                        }
+                        this.num = val1.length
+                    }
+                    if (val1.length == 0) {
+                        val.prop('checked', true)
+                        for (var j = 0; j < this.todos.length; j++) {
+                            this.todos[j].name = "completed"
+                            this.todos[j].name1 = " one"
+                        }
+                        this.num = val1.length
+                    }
+                    flag = !flag
+                },
+                chooseList: function (val) {
+                    if (val.checked == true) {
+                        this.todos[val.id].name = "completed",
+                            this.todos[val.id].name1 = " one"
+                        this.num--
+                    } else {
+                        this.todos[val.id].name = ""
+                        this.todos[val.id].name1 = ""
+                        this.num++
+                    }
+                },
+                handleList: function (val) {
+                    for (let i = 0; i < this.filters.length; i++) {
+                        this.filters[i].selected = ''
+                    }
+                    this.filters[val.id].selected = 'selected'
+                    if (val.id == 1) {
+                        for (var i = 0; i < this.todos.length; i++) {
+                            this.todos[i].flag = true
+                        }
+                        for (var i = 0; i < document.querySelectorAll(".one").length; i++) {
+                            this.todos[document.querySelectorAll(".one")[i].id].flag = false
+                        }
+                        this.num = this.todos.length - document.querySelectorAll(".one").length
+                    } else if (val.id == 2) {
+                        for (var i = 0; i < this.todos.length; i++) {
+                            this.todos[i].flag = false
+                        }
+                        for (var j = 0; j < document.querySelectorAll(".one").length; j++) {
+                            this.todos[document.querySelectorAll(".one")[j].id].flag = true
+                            // console.log(document.querySelectorAll(".one")[j].id);
+                        }
+                        this.num = 0
+                    }
+                    else {
+                        for (var i = 0; i < this.todos.length; i++) {
+                            this.todos[i].flag = true
+                        }
+                        this.num = this.todos.length - document.querySelectorAll(".one").length
+                    }
+                },
+                addList: function (val) {
+                    if (val == '') {
+                        return alert("请输入完整信息")
+                    }
+                    this.todos.push({ id: ++this.ids, title: val, name: '', name1: "", flag: true })
+                    val = '',
+                        this.num++
+                },
+                delList: function (val) {
+                    this.todos.splice(val.id, 1)
+                    if (val.parentNode.children[0].checked == false) {
+                        this.num--
+                    }
+                },
+                allDelList: function () {
+                    // 既然删除数组会改变原数组的长度，那么久用一个新的空数组去把未打钩的数据push进去，然后赋值给todos
+                    var arr = []
+                    var num = this.todos.length
+                    for (let i = 0; i < num; i++) {
+                        if (this.todos[i].name1 == "") {
+                            arr.push(this.todos[i])
+                        }
+                    }
+                    this.todos = arr
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

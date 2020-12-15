@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./axios.js"></script>
+</head>
+
+<body>
+    <!-- 4.5 axios的响应结果响应结果的主要属性
+    data:实际响应击来的数据
+    headers :响应头信息
+    status :响应状态码
+    statusText:响应状态信息 -->
+
+    <script>
+    // 4.6 axios的全局配置
+    axios.defaults.timeout = 3000,//超时时间
+    axios.defaults.baseURL = 'http://127.0.0.1';//默认地址
+    axios.defaults.headers[ 'mytoken' ]= 'aqwerwqwerqwer2ewrwe23eresdf23'//设置请求头
+    </script>
+    <script>
+        axios.get('/axios-json').then(ret => {
+            console.log(ret);
+        })
+    </script>
+</body>
+
+</html>

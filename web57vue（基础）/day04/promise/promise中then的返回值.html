@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function aaa(url){
+            var p = new Promise(function(resolve,reject){
+                var xhr = new XMLHttpRequest()
+                xhr.open('get',url)
+                xhr.send(null)
+                xhr.onreadystatechange=function(){
+                    if(xhr.readyState != 4) return
+                    if(xhr.readyState == 4 && xhr.status == 200) {
+                        resolve(xhr.responseText)
+                    }else{
+                        reject("服务器错误")
+                    }
+                }
+            })
+            return p
+        }
+        aaa('http://127.0.0.1/get')
+        .then(function(data){
+            return aaa('http://127.0.0.1/get1')
+        })
+        .then(function(data){
+            // 当返回值为一个新的promise对象时，返回的实例对象会调用下一个then
+            // return new Promise(function(resolve,reject){
+            //     resolve("123")
+            // })
+            
+            // 当返回值为一个普通纸返回给下一个then，通过then参数中函数的参数（这里也就是data）接收该参数值
+            return "小鞠女神"
+        })
+        .then(function(data){
+            console.log(data);
+        })
+    </script>
+</body>
+</html>

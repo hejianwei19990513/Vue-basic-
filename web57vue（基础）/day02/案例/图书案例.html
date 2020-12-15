@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .app {
+            width: 600px;
+            margin: 0 auto;
+            border: 1px solid red;
+            text-align: center;
+        }
+
+        .title span:nth-child(1),
+        .title span:nth-child(3) {
+            margin-right: 10px;
+        }
+
+        .title input:nth-child(2),
+        .title input:nth-child(4) {
+            margin: 0 10px;
+        }
+
+        .title {
+            height: 40px;
+            margin-top: 30px;
+            background-color: #f6dba8;
+            line-height: 40px;
+        }
+
+        tr th:nth-child(1),
+        tr td:nth-child(1) {
+            width: 100px;
+            height: 50px;
+            border: 2px dotted #f6dba8;
+        }
+
+        tr th:not(:nth-child(1)),
+        tr td:not(:nth-child(1)) {
+            width: 166px;
+            height: 50px;
+            border: 2px dotted #f6dba8;
+        }
+
+        tr th {
+            background-color: #f6dba8;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <h1>图书管理</h1>
+        <div class="title">
+            <span>编号:</span><input type="text" v-model.change="ids" :disabled=flag><span>名称:</span><input type="text"
+                v-model.change="name">
+            <button @click="handle">提交</button>
+        </div>
+        <table cellspacing="0" cellpadding="0" v-cloak>
+            <tr>
+                <th v-for="item in thead">{{item}}</th>
+            </tr>
+            <tr v-for="item in list">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.date|format}}</td>
+                <td><a href='javascript:;' @click="change" :id="item.id">修改</a> | <a href='javascript:;'
+                        @click="del">删除</a></td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        Vue.filter("format", function (val) {
+            if (val == "2018-01-01") {
+                return val
+            } else {
+                var y = val.getFullYear().toString().padStart(2, "0")
+                var m = (val.getMonth() + 1).toString().padStart(2, "0")
+                var d = val.getDate().toString().padStart(2, "0")
+                return y + "-" + m + "-" + d
+            }
+        })
+        var V = new Vue({
+            el: ".app",
+            data: {
+                num: 5,
+                flag: false,
+                ids: null,
+                name: "",
+                thead: ["编号", "名称", "时间", "操作"],
+                list: [{ id: "1", name: "三国演义", date: "2018-01-01" }, { id: "2", name: "水浒传", date: "2018-01-01" },
+                { id: "3", name: "红楼梦", date: "2018-01-01" }, { id: "4", name: "西游记", date: "2018-01-01" }
+                ],
+            },
+            methods: {
+                handle: function () {
+                    if(this.ids == '' || this.name == "") {
+                        alert("请输入完整信息")
+                        this.ids = ''
+                        this.name = ''
+                        return
+                    }
+                    if (this.flag == true) {
+                        this.list[this.ids - 1].name = this.name
+                        this.flag = false
+                        this.ids = ''
+                        this.name = ''
+                        return
+                    }
+                    this.list.push({ id: (this.num)++, name: this.name, date: new Date() })
+                    this.ids = ''
+                    this.name = ''
+                },
+                del: function (event) {
+                    event.target.parentNode.parentNode.remove()
+                },
+                change: function (event) {
+                    this.flag = true
+                    this.ids = this.list[event.target.id - 1].id
+                    this.name = this.list[event.target.id - 1].name
+                }
+            },
+        })
+    </script>
+</body>
+<!-- id不重复的操作 -->
+<!-- for (var i = 0; i < this.list.length; i++) {
+    if (this.ids == this.list[i].id) {
+        this.ids = ''
+        this.name = ''
+        alert("请不要输入重复的编号")
+        return
+    }
+} -->
+</html>

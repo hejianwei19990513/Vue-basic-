@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        .active {
+            width: 300px;
+            height: 300px;
+            border: 1px solid red;
+        }
+
+        .error {
+            color: red
+        }
+
+        .test {
+            font-size: 52px;
+        }
+
+        .app div:nth-child(-n+4) {
+            float: left;
+        }
+
+        button {
+            display: block;
+            width: 100px;
+            height: 100px;
+        }
+        .app {
+            width: 10000px;
+            height: 500px;
+        }
+        .base {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- class样式绑定相关语法细节:
+    1、对象绑定和数组绑定可以结合使用
+    2、class绑定的值可以简化操作
+    3、默认的class如何处理? -->
+    <div class="app">
+        <!-- 对象绑定和数组绑定可以结合使用 -->
+        <div :class="[activeClass,errorClass,{test:isTest}]">这是结合使用</div>
+
+        <!-- class绑定的值可以简化操作 -->
+        <div :class='arrClasses'>这是简化数组操作</div>
+        <div :class='objClasses'>这是简化对象操作</div>
+
+        <!-- 默认的class如何处理? -->
+        <div class="base" :class='objClasses'>默认的class</div><!-- 默认的class会保留，和vue里面的绑定的class结合到一块 -->
+
+
+        <button @click='handle'>按钮</button>
+    </div>
+    <script>
+        var V = new Vue({
+            el: ".app",
+            data: {
+                activeClass: "active",
+                errorClass: "error",
+                isTest: true,
+                arrClasses: ["active","error"],
+                objClasses:{"active":true,"error":true}
+            },
+            methods: {
+                handle: function(){
+                    if (this.arrClasses.includes("active")) {
+                        this.arrClasses = []
+                    } else{
+                        this.arrClasses=["active","error"]
+                    }
+                   this.objClasses.error = false
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

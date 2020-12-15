@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div class="app">
+        <div>{{date|format}}</div>
+    </div>
+    <script>
+        Vue.filter("format",function(val){
+            var y = val.getFullYear().toString().padStart(2,"0")
+            var m = (val.getMonth()+1).toString().padStart(2,"0")
+            var d = val.getDate().toString().padStart(2,"0")
+            var h = val.getHours().toString().padStart(2,"0")
+            var min = val.getMinutes().toString().padStart(2,"0")
+            var s = val.getSeconds().toString().padStart(2,"0")
+            return  y + "-" + m + "-" + d + " " + h + ":" + min + ":" + s
+        })
+        var V =new Vue({
+            el:".app",
+            data:{
+                date:new Date()
+            }
+        })
+    </script>
+</body>
+</html>

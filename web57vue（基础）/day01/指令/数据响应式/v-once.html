@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="msg">
+        <!-- 显示内容之后不再具有响应式功能(不能再通过控制台改变) -->
+        <div v-once>{{msg}}</div>
+    </div>
+    <script>
+        var v = new Vue({
+            el:"#msg",
+            data:{
+                msg:"小鞠女神"
+            },
+        })
+    </script>
+
+</body>
+
+</html>

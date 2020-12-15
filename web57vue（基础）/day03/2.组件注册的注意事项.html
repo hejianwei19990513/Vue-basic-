@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <!-- 4．组件命名方式
+    短横线方式
+    vue.component ('my-comronent',{/*...*/})
+    驼峰方式(首字母也要大写)
+    
+    vue.component ('MyComponent',{/*...*/})-->
+    <div class="app">
+        <button-counter></button-counter>
+
+        <!-- 如果使用驼峰式命名组件，那么在使用组件的时候，只能在字符串模板中用驼峰的方式使用组件，但是在普通的标签模板中,必须使用短横线的方式使用组件 -->
+        <hello-world></hello-world>
+    </div>
+    <script>
+        Vue.component("HelloWorld", {
+            data: function () {
+                return {
+                    word: "HelloWorld"
+                }
+            },
+            template: "<div>{{word}}</div>"
+        })
+        Vue.component("button-counter", {
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            template: `<div>
+                            <button @click="count++">点击了{{count}}次</button>
+                            <button>测试</button>
+                            <HelloWorld></HelloWorld>
+                        </div>`
+        })
+        var V = new Vue({ el: ".app" })
+    </script>
+</body>
+
+</html>

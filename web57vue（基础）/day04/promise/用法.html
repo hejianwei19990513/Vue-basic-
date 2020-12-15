@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 2.1异步调用
+    异步效果分析定时任务
+    Ajax197662
+    事件函数
+
+    多次异步调用的依赖分析:
+    多次异步调用的结果顺序不确定
+    异步调用结果如果存在依赖需要嵌套
+
+
+    2.2 Promise概述
+    Promise是异步编程的一种解决方案，从语法上讲，Promise是一个对象，从它可以获取异步操作的消息。
+    使用Promise主要有以下好处:
+    ●可以避免多层异步调用嵌套问题(回调地狱)
+    Promise对象提供了简洁的4PI，使得控制异步操作更加容易 -->
+    <script>
+        var p = new Promise(function(resolve,reject){
+            setTimeout(function(){
+                var flag = true
+                if(flag){
+                    resolve("小鞠女神")
+                }else {
+                    reject("服务器出错")
+                }
+            },1000)
+        })
+        p.then(function(data){
+            console.log(data);
+        },function(data){
+            console.log(data);
+        })
+    </script>
+</body>
+
+</html>

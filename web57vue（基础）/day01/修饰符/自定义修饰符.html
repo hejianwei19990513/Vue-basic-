@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- @keyup.13="handle"意思是当按下回车键（也就是keycode为13的键位）才触发handle函数 -->
+        <input type="text" @keyup.13="handle">
+    </div>
+    <script>
+        var V = new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+                handle: function () {
+                    alert("您按下了回车键")
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 3.3 fetch请求参数
+    1.常用配置选项
+    method(String): HTTP请求方法，默认为GET(GET、POST、PUT、DELETE)
+    body(string):HTTP的请求参数
+    headers(Object):HTTP的请求头，默认为{} -->
+
+    <script>
+        // fetch发送get请求
+        fetch('http://127.0.0.1/fetchget?id=3',{
+            method:"get"
+        }).then(data=>{
+            return data.text()
+        }).then(ret=>{
+            console.log(ret);
+        })
+
+        // fetch发送delete请求
+        fetch('http://127.0.0.1/fetchdel/delete',{
+            method:"delete"
+        }).then(data=>{
+            return data.text()
+        }).then(ret=>{
+            console.log(ret);
+        })
+    </script>
+</body>
+
+</html>

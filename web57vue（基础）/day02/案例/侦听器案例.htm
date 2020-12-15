@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <script src="../jquery-3.5.1.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        用户名: <input type="text" v-model.lazy="uname">
+        <span>{{msg}}</span>
+    </div>
+    <script>
+        var V = new Vue({
+            el: ".app",
+            data: {
+                uname: '',
+                msg: ""
+            },
+            methods: {
+                checkName: function (val) {
+                    if (val == "tom") {
+                        setTimeout(function () {
+                            this.msg = "用户名可以使用！"
+                        }.bind(this), 2000)
+                    } else {
+                        setTimeout(function () {
+                            this.msg = "用户名已存在，请更换"
+                        }.bind(this), 2000)
+                    }
+                }
+            },
+            watch: {
+                uname: function (val) {
+                    this.checkName(val)
+                    this.msg = "正在检测中..."
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

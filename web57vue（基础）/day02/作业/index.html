@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <script src="../jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" class="new-todo" v-model='word' @keyup.enter="add" v-focus>
+        </header>
+        <section class="main">
+            <input id="toggle-all" type="checkbox" class="toggle-all" @click='allChecked'>
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li :class="item.name" :key='item.id' v-for='(item,index) in todos' v-show="item.flag">
+                    <div class="view">
+                        <input type="checkbox" :class="'toggle' + item.name1" @click='choose' :id="index"
+                            v-if="item.id==3" checked>
+                        <input type="checkbox" :class="'toggle' + item.name1" @click='choose' :id="index" v-else>
+                        <label @dblclick="change">{{item.title}}</label>
+                        <button class="destroy" :id="index" @click='del'></button>
+                    </div>
+                    <input class="edit" v-model='item.title' v-focus="item === currentEditing" @blur="out" @keyup.esc="out">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer">
+            <span class="todo-count">
+                <strong>{{num}}</strong> item left</span>
+            <ul class="filters">
+                <li :key='index' v-for='(item,index) in filters'><a :href="item.href" :class="item.selected"
+                        @click='handle' :id="index">{{item.title}}</a></li>
+            </ul>
+            <button class="clear-completed" @click='allDel'>Clear completed</button>
+        </footer>
+    </section>
+    <script>
+        Vue.directive('focus', {
+            inserted: function (el) {
+                el.focus();
+            }
+        })
+        var flag = true
+        var V = new Vue({
+            el: "#todoapp",
+            data: {
+                msg: '',
+                num: 2,
+                word: '',
+                ids: 3,
+                todos: [{
+                    id: 1,
+                    title: '吃饭',
+                    name: '',
+                    name1: "",
+                    flag: true
+                }, {
+                    id: 2,
+                    title: '睡觉',
+                    name: '',
+                    name1: "",
+                    flag: true
+                }, {
+                    id: 3,
+                    title: '打豆豆',
+                    name: "completed",
+                    name1: " one",
+                    flag: true
+                }],
+                filters: [{
+                    id: 1,
+                    title: "All",
+                    selected: "selected",
+                    href: "#/",
+                }, {
+                    id: 2,
+                    title: "Active",
+                    selected: "",
+                    href: "#/active",
+                }, {
+                    id: 3,
+                    title: "Completed",
+                    selected: "",
+                    href: "#/completed",
+                }]
+            },
+            methods: {
+                change: function (e) {
+                    e.target.parentNode.parentNode.classList.add("editing")
+                },
+                out: function (e) {
+                    e.target.parentNode.classList.remove("editing")
+                    console.log(e.target);
+                },
+                allChecked: function () {
+                    for (var i = 0; i < this.todos.length; i++) {
+                        $(".toggle").prop('checked', flag)
+                    }
+                    if (flag) {
+                        for (var j = 0; j < this.todos.length; j++) {
+                            this.todos[j].name = "completed"
+                            this.todos[j].name1 = " one"
+                        }
+                        this.num = 0
+                    } else {
+                        for (var j = 0; j < this.todos.length; j++) {
+                            this.todos[j].name = ""
+                            this.todos[j].name1 = ""
+                        }
+                        this.num = $(".one").length
+                    }
+                    if ($(".one").length == 3) {
+                        $(".toggle").prop('checked', false)
+                        for (var j = 0; j < this.todos.length; j++) {
+                            this.todos[j].name = ""
+                            this.todos[j].name1 = ""
+                        }
+                        this.num = $(".one").length
+                    }
+                    if ($(".one").length == 0) {
+                        $(".toggle").prop('checked', true)
+                        for (var j = 0; j < this.todos.length; j++) {
+                            this.todos[j].name = "completed"
+                            this.todos[j].name1 = " one"
+                        }
+                        this.num = $(".one").length
+                    }
+                    flag = !flag
+                },
+                choose: function (e) {
+                    if (e.target.checked == true) {
+                        this.todos[e.target.id].name = "completed",
+                            this.todos[e.target.id].name1 = " one"
+                        this.num--
+                    } else {
+                        this.todos[e.target.id].name = ""
+                        this.todos[e.target.id].name1 = ""
+                        this.num++
+                    }
+                },
+                handle: function (e) {
+                    for (let i = 0; i < this.filters.length; i++) {
+                        this.filters[i].selected = ''
+                    }
+                    this.filters[e.target.id].selected = 'selected'
+                    if (e.target.id == 1) {
+                        for (var i = 0; i < this.todos.length; i++) {
+                            this.todos[i].flag = true
+                        }
+                        for (var i = 0; i < $(".one").length; i++) {
+                            this.todos[$(".one")[i].id].flag = false
+                        }
+                        this.num = this.todos.length - $(".one").length
+                    } else if (e.target.id == 2) {
+                        for (var i = 0; i < this.todos.length; i++) {
+                            this.todos[i].flag = false
+                        }
+                        for (var j = 0; j < $(".one").length; j++) {
+                            this.todos[$(".one")[j].id].flag = true
+                            // console.log($(".one")[j].id);
+                        }
+                        this.num = 0
+                    }
+                    else {
+                        for (var i = 0; i < this.todos.length; i++) {
+                            this.todos[i].flag = true
+                        }
+                        this.num = this.todos.length - $(".one").length
+                    }
+                },
+                add: function () {
+                    if (this.word == '') {
+                        return alert("请输入完整信息")
+                    }
+                    this.todos.push({ id: ++this.ids, title: this.word, name: '', name1: "", flag: true })
+                    this.word = '',
+                        this.num++
+                },
+                del: function (e) {
+                    this.todos.splice(e.target.id, 1)
+                    if (e.target.parentNode.children[0].checked == false) {
+                        this.num--
+                    }
+                },
+                allDel: function () {
+                    // 既然删除数组会改变原数组的长度，那么久用一个新的空数组去把未打钩的数据push进去，然后赋值给todos
+                    var arr = []
+                    var num = this.todos.length
+                    for (let i = 0; i < num; i++) {
+                        if (this.todos[i].name1 == "") {
+                            arr.push(this.todos[i])
+                        }
+                    }
+                    this.todos = arr
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

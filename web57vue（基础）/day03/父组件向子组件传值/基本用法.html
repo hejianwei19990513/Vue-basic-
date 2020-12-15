@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- 父组件通过属性将值传送给子组件的方法只有这一种 -->
+        <test :title1='title'></test>
+
+        <!-- 这里不属于父组件通过属性将值传送给子组件的方法 -->
+        <test title1="我是子组件自己定义的内容"></test>
+    </div>
+    <script>
+        Vue.component("test",{
+            props:['title1'],
+            template:`<div>{{title1}}</div>`
+        })
+        var V = new Vue({
+            el:".app",
+            data:{
+                title:"我是父组件的内容"
+            },
+        })
+    </script>
+</body>
+</html>
